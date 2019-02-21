@@ -18,8 +18,17 @@ import com.buka.exercicio4.models.DeezerChart;
 
 import java.io.IOException;
 
-public class MainActivity extends AppCompatActivity {
-    private static final String TAG = MainActivity.class.getSimpleName();
+// -- Passos a fazer na classe ChartViewModel
+// TODO: Passo 1 - Crie uma classe de nome ChartViewModel que extenda de ViewModel
+// TODO: Passo 2 - Instancie a classe DeezerApi no construtor do view model e guarde como campo privado
+// TODO: Passo 4 - Remova todo código que faz referência à interface do usuário na AsyncTask
+// TODO: Passo 5 - Crie o método público fetchChart(), neste método execute a AsyncTask
+// TODO: Passo 6 - Crie um campo privado do tipo MutableLiveData<> que notifica à interface do usuário uma ArrayList de Track's (música)
+// TODO: Passo 7 - Crie um getter para este MutableLiveData<>, o retorno do método tem de ser LiveData<>
+// TODO: Passo 8 - No método onPostExecute da AsyncTask, use o MutableLiveData para notificar a interface sobre a lista de Track's (música)
+
+public class ChartActivity extends AppCompatActivity {
+    private static final String TAG = ChartActivity.class.getSimpleName();
 
     private DeezerApi deezerApi;
     private TracksAdapter tracksAdapter;
@@ -28,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_chart);
 
         RecyclerView tracksRecyclerView = findViewById(R.id.recyclerview_tracks);
         loadingProgressBar = findViewById(R.id.progressbar_loading);
@@ -37,6 +46,14 @@ public class MainActivity extends AppCompatActivity {
         tracksRecyclerView.setAdapter(tracksAdapter);
         tracksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        // TODO: Passo 11 - Obtenha a instância do ChartViewModel
+
+        // TODO: Passo 12 - Faça esta activity "observar" pelas mudanças que ocorrem no ChartViewModel
+        // TODO: Passo 13 - Dentro do Observer, atualize o RecyclerView com a nova lista de músicas (tracks)
+
+        // TODO: Passo 14 - Invoque o método fetchChart para realizar a requisição
+
+        // TODO: Passo 9 - Remova o código que tenha a ver com o Retrofit
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.deezer.com/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -44,10 +61,12 @@ public class MainActivity extends AppCompatActivity {
 
         deezerApi = retrofit.create(DeezerApi.class);
 
+        // TODO: Passo 10 - Remova a instanciação e execução desta AsyncTask
         ChartRequestTask chartRequestTask = new ChartRequestTask();
         chartRequestTask.execute();
     }
 
+    // TODO: Passo 3 - Mova a ChartRequestTask para dentro da classe ChartViewModel
     class ChartRequestTask extends AsyncTask<Void, Void, DeezerChart> {
         @Override
         protected void onPreExecute() {
